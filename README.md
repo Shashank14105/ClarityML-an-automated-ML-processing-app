@@ -74,22 +74,22 @@ ClarityML/
 └── README.md
 ```
 
-👨‍💻 Author
+## 👨‍💻 Author
 
-Shashank Kumar
-Interested in Machine Learning, Web Development & AI Systems
-🔗 GitHub: [Profile]("https://github.com/Shashank14105")
+### Shashank Kumar
+* Interested in Machine Learning, Web Development & AI Systems
+* 🔗 GitHub: [Profile]("https://github.com/Shashank14105")
 
-⭐ Future Improvements
+## ⭐ Future Improvements
 
-🚀 Production ML SaaS
-login system
-user uploads saved
-prediction API
-multi-model leaderboard UI
-PDF report download
-database integration (SQLite/Firebase)
-SHAP explainability for model interpretation
-Train/test split slider control
-Multi-page dashboard UI
-Docker deployment
+### 🚀 Production ML SaaS
+#### login system
+#### user uploads saved
+####  prediction API
+####  multi-model leaderboard UI
+####  PDF report download
+####  database integration (SQLite/Firebase)
+####  SHAP explainability for model interpretation
+####  Train/test split slider control
+####  Multi-page dashboard UI
+####  Docker deployment
