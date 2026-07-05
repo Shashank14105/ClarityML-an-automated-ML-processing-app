@@ -1,16 +1,17 @@
-from sweetviz import ProfileReport
-from streamlit_pandas_profiling import st_profile_report
+import streamlit as st
+import pandas as pd
 import sweetviz as sv
 
 report = sv.analyze(df)
 report.show_html("report.html")
+import pycaret
+from sweetviz import ProfileReport
+from streamlit_pandas_profiling import st_profile_report
+
 
 
 import os
 os.system("pip install -U setuptools wheel")
-
-import streamlit as st
-import pandas as pd
 
 from pycaret.classification import setup, compare_models, pull, save_model, plot_model, finalize_model
 
