@@ -9,152 +9,127 @@ from pycaret.classification import (
     finalize_model, plot_model, save_model
 )
 
-from ydata_profiling import ProfileReport
-from streamlit_pandas_profiling import st_profile_report
+
+st.set_page_config(
+    page_title="Clarity ML",
+    layout="wide",
+    page_icon="📊"
+)
 
 
-# ---------------- PAGE CONFIG ----------------
-st.set_page_config(page_title="Clarity ML", layout="wide")
-
-# ---------------- SIDEBAR ----------------
 with st.sidebar:
-    st.title("Clarity ML")
+    st.title("📊 Clarity ML")
 
     choice = st.radio(
         "Navigation",
-        ["Upload", "Profiling", "ML", "Download", "HTML Report"]
+        ["Upload", "EDA", "ML", "Download"]
     )
 
-    st.info(
-        "Upload dataset → Profile data → Train ML model → Download model/report"
-    )
+    st.info("Upload → Explore → Train Model → Download")
 
 
-# ---------------- LOAD DATA ----------------
-DATA_PATH = "sourcedata.csv"
+DATA_PATH = "data.csv"
 
 df = None
 if os.path.exists(DATA_PATH):
     df = pd.read_csv(DATA_PATH)
 
 
-# ---------------- UPLOAD ----------------
 if choice == "Upload":
-    st.title("Upload Dataset")
+    st.title("📂 Upload Dataset")
 
-    file = st.file_uploader("Upload CSV", type=["csv"])
+    file = st.file_uploader("Upload CSV file", type=["csv"])
 
     if file:
         df = pd.read_csv(file)
         df.to_csv(DATA_PATH, index=False)
+
         st.success("Dataset uploaded successfully!")
-        st.dataframe(df)
+        st.dataframe(df.head())
 
 
-# ---------------- PROFILING ----------------
-elif choice == "Profiling":
-    st.title("EDA Report")
+elif choice == "EDA":
+    st.title("📊 Exploratory Data Analysis")
 
     if df is None:
-        st.warning("Upload dataset first.")
+        st.warning("Please upload a dataset first.")
     else:
-        profile = ProfileReport(df, explorative=True)
-        st_profile_report(profile)
+        st.subheader("Dataset Preview")
+        st.dataframe(df.head())
 
+        st.subheader("Basic Statistics")
+        st.dataframe(df.describe())
 
-# ---------------- ML ----------------
+        st.subheader("Missing Values")
+        st.dataframe(df.isnull().sum())
+
+        st.subheader("Column Info")
+        st.write(df.dtypes)
+
 elif choice == "ML":
-    st.title("AutoML (PyCaret)")
+    st.title("🤖 AutoML (PyCaret)")
 
     if df is None:
-        st.warning("Upload dataset first.")
-
+        st.warning("Please upload a dataset first.")
     else:
         target = st.selectbox("Select Target Column", df.columns)
 
-        if st.button("Run ML"):
+        if st.button("Train Model"):
 
-            st.info("Setting up PyCaret...")
-            setup(data=df, target=target, session_id=123, silent=True)
+            st.info("Initializing PyCaret...")
 
-            st.subheader("Model Comparison")
+            setup(
+                data=df,
+                target=target,
+                session_id=123,
+                silent=True,
+                verbose=False
+            )
 
+            st.success("Setup completed")
+
+            st.subheader("Comparing Models...")
             best_model = compare_models()
 
-            st.write("Best Model:", best_model)
+            st.write("### Best Model")
+            st.write(best_model)
 
             final_model = finalize_model(best_model)
             st.session_state["model"] = final_model
 
-            st.success("Model trained successfully!")
-
-            # Metrics table
             st.subheader("Model Metrics")
             st.dataframe(pull())
 
-            # Plots (safe handling)
+            
             st.subheader("Confusion Matrix")
             try:
                 plot_model(final_model, plot="confusion_matrix", display_format="streamlit")
             except:
-                st.warning("Confusion matrix not available.")
+                st.warning("Plot not available for this model")
 
-            st.subheader("ROC Curve")
+            st.subheader("AUC Curve")
             try:
                 plot_model(final_model, plot="auc", display_format="streamlit")
             except:
-                st.warning("ROC not available for this model.")
+                st.warning("AUC not available")
 
-            # Save model
             save_model(final_model, "best_model")
-            st.success("Model saved as best_model.pkl")
+            st.success("Model saved successfully!")
 
 
-# ---------------- DOWNLOAD MODEL ----------------
 elif choice == "Download":
-    st.title("Download Model")
+    st.title("⬇️ Download Model")
 
     if "model" not in st.session_state:
-        st.warning("Train model first in ML section.")
+        st.warning("Train a model first.")
     else:
         buffer = BytesIO()
         pickle.dump(st.session_state["model"], buffer)
         buffer.seek(0)
 
         st.download_button(
-            "Download Model (.pkl)",
-            buffer,
+            label="Download Model (.pkl)",
+            data=buffer,
             file_name="best_model.pkl",
             mime="application/octet-stream"
-        )
-
-
-# ---------------- HTML REPORT ----------------
-elif choice == "HTML Report":
-    st.title("Download Report")
-
-    if "model" not in st.session_state:
-        st.warning("Train model first in ML section.")
-    else:
-
-        report_html = f"""
-        <html>
-        <head><title>Clarity ML Report</title></head>
-        <body>
-            <h1>AutoML Report</h1>
-
-            <h2>Best Model</h2>
-            <p>{st.session_state["model"]}</p>
-
-            <h2>Metrics</h2>
-            {pull().to_html()}
-        </body>
-        </html>
-        """
-
-        st.download_button(
-            "Download HTML Report",
-            report_html,
-            file_name="ml_report.html",
-            mime="text/html"
         )
