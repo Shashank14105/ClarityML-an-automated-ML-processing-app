@@ -2,6 +2,10 @@ from sweetviz import ProfileReport
 from streamlit_pandas_profiling import st_profile_report
 import sweetviz as sv
 
+report = sv.analyze(df)
+report.show_html("report.html")
+
+
 import os
 os.system("pip install -U setuptools wheel")
 
@@ -59,8 +63,8 @@ elif choice == "Profiling":
     if df is None:
         st.warning("Please upload a dataset first.")
     else:
-        report = sv.analyze(df)
-        report.show_html("report.html")
+        profile = ProfileReport(df, explorative=True)
+        st_profile_report(profile)
 
 # ML
 elif choice == "ML":
