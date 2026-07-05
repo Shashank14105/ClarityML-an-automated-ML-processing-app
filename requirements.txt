@@ -1,3 +1,4 @@
+
 setuptools>=70.0.0
 wheel
 
@@ -15,7 +16,7 @@ lightgbm==4.6.0
 xgboost
 catboost
 
-ydata-profiling==4.16.1
+ydata-profiling==4.18.4
 streamlit-pandas-profiling==0.1.3
 
 imbalanced-learn==0.14.2
