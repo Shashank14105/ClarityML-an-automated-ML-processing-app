@@ -1,25 +1,21 @@
+import streamlit as st
+import pandas as pd
+
+def generate_profile(df):
+    st.warning("EDA profiling is disabled in cloud deployment due to dependency conflicts.")
+    st.dataframe(df.describe())
+    
 import os
 os.system("pip install -U setuptools wheel")
 
 import streamlit as st
 import pandas as pd
 
-
-from streamlit_pandas_profiling import st_profile_report
-
 from pycaret.classification import setup, compare_models, pull, save_model, plot_model, finalize_model
 
 #Download
 import pickle
 from io import BytesIO
-
-
-from ydata_profiling import ProfileReport
-try:
-    from ydata_profiling import ProfileReport
-except Exception:
-    ProfileReport = None
-    st.warning("Profiling library not available in deployment")
 
 # PAGE CONFIG
 st.set_page_config(page_title="Clarity ML", layout="wide")
@@ -66,9 +62,7 @@ elif choice == "Profiling":
     if df is None:
         st.warning("Please upload a dataset first.")
     else:
-        profile = ProfileReport(df, explorative=True)
-        st_profile_report(profile)
-
+        generate_profile(df)
 
 # ML
 elif choice == "ML":
