@@ -77,8 +77,15 @@ ClarityML/
 ## 👨‍💻 Author
 
 ### Shashank Kumar
-* Interested in Machine Learning, Web Development & AI Systems
-* 🔗 GitHub: [Profile]("https://github.com/Shashank14105")
+
+B.Tech CSE (AI \& ML)
+Passionate about Artificial Intelligence, Machine Learning and Community-Oriented Software Solutions.
+
+### Connect with Me
+
+* 🔗 GitHub: https://github.com/Shashank14105
+* LinkedIn: [LinkedIn]("https://linkedin.com/in/urs-trulyshashank")
+* Email: [Connect Via Email](mailto:shashankkumar7701@gmail.com)
 
 ## ⭐ Future Improvements
 
