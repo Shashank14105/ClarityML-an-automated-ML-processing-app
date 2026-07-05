@@ -1,0 +1,6 @@
+.myvenv/
+__pycache__/
+*.pyc
+best_model.pkl
+sourcedata.csv
+logs.log
