@@ -1,10 +1,7 @@
-import streamlit as st
-import pandas as pd
+from sweetviz import ProfileReport
+from streamlit_pandas_profiling import st_profile_report
+import sweetviz as sv
 
-def generate_profile(df):
-    st.warning("EDA profiling is disabled in cloud deployment due to dependency conflicts.")
-    st.dataframe(df.describe())
-    
 import os
 os.system("pip install -U setuptools wheel")
 
@@ -62,7 +59,8 @@ elif choice == "Profiling":
     if df is None:
         st.warning("Please upload a dataset first.")
     else:
-        generate_profile(df)
+        report = sv.analyze(df)
+        report.show_html("report.html")
 
 # ML
 elif choice == "ML":
