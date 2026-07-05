@@ -59,6 +59,7 @@ Provides automated exploratory data analysis (EDA) using `ydata-profiling`, incl
 
 ## 📂 Project Structure
 
+```text
 ClarityML/
 │
 ├── app.py
@@ -71,6 +72,7 @@ ClarityML/
 ├── sourcedata.csv
 ├── requirements.txt
 └── README.md
+```
 
 👨‍💻 Author
 
